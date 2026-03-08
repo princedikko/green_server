@@ -1,5 +1,4 @@
 import adminDataAccessObject from "../data_access_objects/admin_DOA.js";
-import { S3ServiceAdmin } from "../services/s3Service.js";
 
 export default class adminController {
   static async adminRegistration(req, res, next) {

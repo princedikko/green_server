@@ -1,7 +1,5 @@
 // dao/emailService.mjs
 import nodemailer from "nodemailer";
-import axios from "axios";
-import { BULK_SMS_URL, BULK_SMS_API_KEY } from "../config/smsConfig.mjs";
 
 export default class sendNotification {
   static async sendEmail(
@@ -12,7 +10,7 @@ export default class sendNotification {
     programme,
     refNumber,
     transactionId,
-    email_address
+    email_address,
   ) {
     try {
       const transporter = nodemailer.createTransport({
@@ -80,8 +78,8 @@ export default class sendNotification {
       <a href="mailto:${
         process.env.EMAIL_USER
       }" style="color: #1a73e8; text-decoration: none;">${
-          process.env.EMAIL_USER
-        }</a>
+        process.env.EMAIL_USER
+      }</a>
       or call us at +234 806 399 6056. Our team is here to support you throughout the process.
     </p>
 
