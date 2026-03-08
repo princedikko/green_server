@@ -1,0 +1,26 @@
+{
+  "name": "mangacons.edu.ng_server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "server side scripting for manga college of nursing sciences, zuru",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "univerise technology industry, Nigeria",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.675.0",
+    "@aws-sdk/lib-storage": "^3.675.0",
+    "aws-sdk": "^2.1691.0",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongodb": "^6.9.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15"
+  },
+  "keywords": []
+}
