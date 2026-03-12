@@ -1,4 +1,4 @@
-import clientsDataAccessObject from "../data_access_objects/clients_DAO.js";
+import clientsDataAccessObject from "../data_access_objects/inventory_DAO.js";
 
 export default class clientsController {
   static async clientsLogin(req, res, next) {
