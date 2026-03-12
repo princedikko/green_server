@@ -51,7 +51,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -93,7 +93,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -113,7 +113,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -130,7 +130,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -150,7 +150,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -170,7 +170,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -190,7 +190,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -210,7 +210,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -230,7 +230,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -250,7 +250,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -267,7 +267,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -287,7 +287,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -304,7 +304,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -324,7 +324,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -344,7 +344,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -364,7 +364,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -381,7 +381,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -398,7 +398,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -418,7 +418,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -438,7 +438,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -458,7 +458,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -478,7 +478,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -498,7 +498,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -518,7 +518,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -538,7 +538,500 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.found,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSold(req, res, next) {
+    try {
+      const sellings = req.body;
+      const _id = req.params.id;
+      const $payment_type = req.params.payment_type;
+
+      const response = await inventoryDataAccessObject.apiGetItemSold(
+        sellings,
+        _id,
+        $payment_type,
+      );
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetProductDB(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetProductDB(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSold(req, res, next) {
+    try {
+      const sellings = req.body;
+      const _id = req.params.id;
+      const $payment_type = req.params.payment_type;
+
+      const response = await inventoryDataAccessObject.apiGetItemSold(
+        sellings,
+        _id,
+        $payment_type,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetScanEvent(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetScanEvent(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetDraft(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetDraft(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSoledItems(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetSoledItems(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetExpense(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetExpense(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetQuotation(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetQuotation(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSubscription(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetSubscription(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSellReturn(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetSellReturn(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetProductService(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetProductService(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetImport(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetImport(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetPricegroup(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetPricegroup(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetUnit(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetUnit(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetCategory(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetCategory(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetTaxrate(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetTaxrate(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetRecieve(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetRecieve(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetReturn(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetReturn(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetOrder(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetOrder(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetDelivery(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetDelivery(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetOpeningStock(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetOpeningStock(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetInvoices(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetInvoice(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetPayments(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetPayment(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetBillingEstimate(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetBillingEstimate(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetProduction(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetProduction(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiGetSupportChart(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.apiGetSupportChart(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
       });
     } catch (error) {
       console.log(error);

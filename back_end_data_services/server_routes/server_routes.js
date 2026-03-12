@@ -33,6 +33,7 @@ router
 router
   .route("/client/:id/products/fetch_product")
   .get(inventoryController.getAllProducts);
+
 router
   .route("/warehouse/selling/:id/submit_sale/:payment_type")
   .post(inventoryController.apiPostSold);
@@ -72,6 +73,40 @@ router.route("/production/:id").post(inventoryController.apiPostProduction);
 router
   .route("/support-charts/:id")
   .post(inventoryController.apiPostSupportChart);
+
+router
+  .route("/warehouse/selling/:id/submit_sale/:payment_type")
+  .get(inventoryController.apiGetSold);
+
+router.route("/products/:id").get(inventoryController.apiGetProductDB);
+router.route("/sales/:id/:payment_type?").get(inventoryController.apiGetSold);
+router.route("/scan-events/:id").get(inventoryController.apiGetScanEvent);
+router.route("/drafts/:id").get(inventoryController.apiGetDraft);
+router.route("/soled-items/:id").get(inventoryController.apiGetSoledItems);
+router.route("/expenses/:id").get(inventoryController.apiGetExpense);
+router.route("/quotations/:id").get(inventoryController.apiGetQuotation);
+router.route("/subscriptions/:id").get(inventoryController.apiGetSubscription);
+router.route("/sell-returns/:id").get(inventoryController.apiGetSellReturn);
+router
+  .route("/product-services/:id")
+  .get(inventoryController.apiGetProductService);
+router.route("/imports/:id").get(inventoryController.apiGetImport);
+router.route("/price-groups/:id").get(inventoryController.apiGetPricegroup);
+router.route("/units/:id").get(inventoryController.apiGetUnit);
+router.route("/categories/:id").get(inventoryController.apiGetCategory);
+router.route("/tax-rates/:id").get(inventoryController.apiGetTaxrate);
+router.route("/receives/:id").get(inventoryController.apiGetRecieve);
+router.route("/returns/:id").get(inventoryController.apiGetReturn);
+router.route("/orders/:id").get(inventoryController.apiGetOrder);
+router.route("/deliveries/:id").get(inventoryController.apiGetDelivery);
+router.route("/opening-stock/:id").get(inventoryController.apiGetOpeningStock);
+router.route("/invoices/:id").get(inventoryController.apiGetInvoices);
+router.route("/payments/:id").get(inventoryController.apiGetPayments);
+router
+  .route("/billing-estimates/:id")
+  .get(inventoryController.apiGetBillingEstimate);
+router.route("/production/:id").get(inventoryController.apiGetProduction);
+router.route("/support-charts/:id").get(inventoryController.apiGetSupportChart);
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ END OF ROUTER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 router
   .route("/system-administration/login")

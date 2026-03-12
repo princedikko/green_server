@@ -1002,4 +1002,531 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
+
+  static async apiGetItemSold(sellings, _id) {
+    try {
+      const data = await sales.find({}).toArray();
+      if (data) {
+        return {
+          status: 201,
+          message: "Sales found successfully",
+          data: data,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`selling fails ${error}`);
+      return error;
+    }
+  }
+  static async apiGetScanEvent() {
+    try {
+      const result = await scanEvent.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Scan event found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`scan event failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetDraft() {
+    try {
+      const result = await drafts.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Draft found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`draft failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetExpense() {
+    try {
+      const result = await expenses.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Expense found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`expense failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetQuotation() {
+    try {
+      const result = await quotation.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Quotation found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`quotation failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetSellReturn() {
+    try {
+      const result = await sellreturn.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Sell return found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`sell return failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetProductService() {
+    try {
+      const result = await productServices.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Service found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`service failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetImport() {
+    try {
+      const result = await imports.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Import found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`import failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetOrder() {
+    try {
+      const result = await orders.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Order found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`order failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetInvoice() {
+    try {
+      const result = await invoices.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Invoice found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`invoice failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetPayment() {
+    try {
+      const result = await payments.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Payment found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`payment failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetSubscription() {
+    try {
+      const result = await subscription.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Subscription found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`subscription failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetPricegroup() {
+    try {
+      const result = await pricegroups.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Price group found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`price group failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetUnit() {
+    try {
+      const result = await units.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Unit found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`unit failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetCategory() {
+    try {
+      const result = await productsCategories.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Category found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`category failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetTaxrate() {
+    try {
+      const result = await taxrate.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Tax rate found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`tax rate failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetRecieve() {
+    try {
+      const result = await recieves.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Recieve found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`recieve failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetReturn() {
+    try {
+      const result = await returns.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Return found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`return failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetDelivery() {
+    try {
+      const result = await delivery.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Delivery found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`delivery failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetOpeningStock() {
+    try {
+      const result = await opening_stock.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Opening stock found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`opening stock failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetBillingEstimate() {
+    try {
+      const result = await billingEstimate.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Estimate found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`estimate failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetProduction() {
+    try {
+      const result = await production.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Production found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`production failed ${error}`);
+      return error;
+    }
+  }
+
+  static async apiGetSupportChart() {
+    try {
+      const result = await support_chart.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Support chart found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`support chart failed ${error}`);
+      return error;
+    }
+  }
 }
