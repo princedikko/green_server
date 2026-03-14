@@ -293,37 +293,37 @@ export default class inventoryDataAccessObject {
   // --------------------------------------------------------------------
 
   // **********************************************************
-  // API CALL FUNCTIONS
+  //  CALL FUNCTIONS
   // **********************************************************
-  static async addProduct(productData) {
+  static async postProducts(productData) {
     try {
-      // ====== VALIDATION ======
-      if (!productData.sku || !productData.barcode || !productData.name) {
-        return {
-          status: 400,
-          message: "sku, barcode and name are required",
-          info: null,
-        };
-      }
-
-      // ====== INSERT ======
-      const insertResult = await productDB.insertOne({
+      const { insertedId } = await productDB.insertOne({
         ...productData,
         status: productData.status || "ACTIVE",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
 
-      return {
-        status: 201,
-        message: "Product added successfully",
-        info: insertResult,
-      };
+      const insertResult = await productDB.find({});
+
+      if (insertResult) {
+        return {
+          status: 201,
+          message: "Product added successfully",
+          info: insertResult,
+        };
+      } else {
+        return {
+          status: 400,
+          message: "Product adding failed",
+          info: null,
+        };
+      }
     } catch (err) {
       console.log(err);
       return {
         status: 500,
-        message: "Error adding product",
+        message: err + "Error adding product",
         info: null,
       };
     }
@@ -336,7 +336,7 @@ export default class inventoryDataAccessObject {
       return [];
     }
   }
-  static async apiPostItemSold(sellings, _id, $payment_type) {
+  static async executeSales(sellings, _id, $payment_type) {
     try {
       const $existed = await sales.findOne({
         saleId: _id,
@@ -365,7 +365,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostScanEvent(data, _id) {
+  static async postScanEvent(data, _id) {
     try {
       const $existed = await scanEvent.findOne({ scanId: _id });
 
@@ -394,7 +394,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostDraft(data, _id) {
+  static async postDraft(data, _id) {
     try {
       const $existed = await drafts.findOne({ draftId: _id });
 
@@ -423,7 +423,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostExpense(data, _id) {
+  static async postExpense(data, _id) {
     try {
       const $existed = await expenses.findOne({ expenseId: _id });
 
@@ -452,7 +452,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostQuotation(data, _id) {
+  static async postQuotation(data, _id) {
     try {
       const $existed = await quotation.findOne({ quotationId: _id });
 
@@ -481,7 +481,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostSellReturn(data, _id) {
+  static async postSellReturn(data, _id) {
     try {
       const $existed = await sellreturn.findOne({ returnId: _id });
 
@@ -510,7 +510,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostProductService(data, _id) {
+  static async postProductService(data, _id) {
     try {
       const $existed = await productServices.findOne({ serviceId: _id });
 
@@ -539,7 +539,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostImport(data, _id) {
+  static async postImport(data, _id) {
     try {
       const $existed = await imports.findOne({ importId: _id });
 
@@ -568,7 +568,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostOrder(data, _id) {
+  static async postOrder(data, _id) {
     try {
       const $existed = await orders.findOne({ orderId: _id });
 
@@ -597,7 +597,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostInvoice(data, _id) {
+  static async postInvoice(data, _id) {
     try {
       const $existed = await invoices.findOne({ invoiceId: _id });
 
@@ -626,7 +626,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostPayment(data, _id) {
+  static async postPayment(data, _id) {
     try {
       const $existed = await payments.findOne({ paymentId: _id });
 
@@ -655,7 +655,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostSubscription(data, _id) {
+  static async postSubscription(data, _id) {
     try {
       const $existed = await subscription.findOne({ subscriptionId: _id });
 
@@ -684,7 +684,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostPricegroup(data, _id) {
+  static async postPricegroup(data, _id) {
     try {
       const $existed = await pricegroups.findOne({ pricegroupId: _id });
 
@@ -713,7 +713,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostUnit(data, _id) {
+  static async postUnit(data, _id) {
     try {
       const $existed = await units.findOne({ unitId: _id });
 
@@ -742,7 +742,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostCategory(data, _id) {
+  static async postCategory(data, _id) {
     try {
       const $existed = await productsCategories.findOne({ categoryId: _id });
 
@@ -771,7 +771,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostTaxrate(data, _id) {
+  static async postTaxrate(data, _id) {
     try {
       const $existed = await taxrate.findOne({ taxrateId: _id });
 
@@ -800,7 +800,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostRecieve(data, _id) {
+  static async postRecieve(data, _id) {
     try {
       const $existed = await recieves.findOne({ recieveId: _id });
 
@@ -829,7 +829,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostReturn(data, _id) {
+  static async postReturn(data, _id) {
     try {
       const $existed = await returns.findOne({ returnId: _id });
 
@@ -858,7 +858,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostDelivery(data, _id) {
+  static async postDelivery(data, _id) {
     try {
       const $existed = await delivery.findOne({ deliveryId: _id });
 
@@ -887,7 +887,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostOpeningStock(data, _id) {
+  static async postOpeningStock(data, _id) {
     try {
       const $existed = await opening_stock.findOne({ openingStockId: _id });
 
@@ -916,7 +916,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostBillingEstimate(data, _id) {
+  static async postBillingEstimate(data, _id) {
     try {
       const $existed = await billingEstimate.findOne({ estimateId: _id });
 
@@ -945,7 +945,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostProduction(data, _id) {
+  static async postProduction(data, _id) {
     try {
       const $existed = await production.findOne({ productionId: _id });
 
@@ -974,7 +974,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiPostSupportChart(data, _id) {
+  static async postSupportChart(data, _id) {
     try {
       const $existed = await support_chart.findOne({ chartId: _id });
 
@@ -1003,7 +1003,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetItemSold(sellings, _id) {
+  static async getItemSold(sellings, _id) {
     try {
       const data = await sales.find({}).toArray();
       if (data) {
@@ -1024,7 +1024,7 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
-  static async apiGetScanEvent() {
+  static async getScanEvent() {
     try {
       const result = await scanEvent.find({}).toArray();
 
@@ -1047,7 +1047,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetDraft() {
+  static async getDraft() {
     try {
       const result = await drafts.find({}).toArray();
 
@@ -1070,7 +1070,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetExpense() {
+  static async getExpense() {
     try {
       const result = await expenses.find({}).toArray();
 
@@ -1093,7 +1093,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetQuotation() {
+  static async getQuotation() {
     try {
       const result = await quotation.find({}).toArray();
 
@@ -1116,7 +1116,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetSellReturn() {
+  static async getSellReturn() {
     try {
       const result = await sellreturn.find({}).toArray();
 
@@ -1139,7 +1139,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetProductService() {
+  static async getProductService() {
     try {
       const result = await productServices.find({}).toArray();
 
@@ -1162,7 +1162,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetImport() {
+  static async getImport() {
     try {
       const result = await imports.find({}).toArray();
 
@@ -1185,7 +1185,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetOrder() {
+  static async getOrder() {
     try {
       const result = await orders.find({}).toArray();
 
@@ -1208,7 +1208,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetInvoice() {
+  static async getInvoice() {
     try {
       const result = await invoices.find({}).toArray();
 
@@ -1231,7 +1231,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetPayment() {
+  static async getPayment() {
     try {
       const result = await payments.find({}).toArray();
 
@@ -1254,7 +1254,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetSubscription() {
+  static async getSubscription() {
     try {
       const result = await subscription.find({}).toArray();
 
@@ -1277,7 +1277,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetPricegroup() {
+  static async getPricegroup() {
     try {
       const result = await pricegroups.find({}).toArray();
 
@@ -1300,7 +1300,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetUnit() {
+  static async getUnit() {
     try {
       const result = await units.find({}).toArray();
 
@@ -1323,7 +1323,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetCategory() {
+  static async getCategory() {
     try {
       const result = await productsCategories.find({}).toArray();
 
@@ -1346,7 +1346,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetTaxrate() {
+  static async getTaxrate() {
     try {
       const result = await taxrate.find({}).toArray();
 
@@ -1369,7 +1369,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetRecieve() {
+  static async getRecieve() {
     try {
       const result = await recieves.find({}).toArray();
 
@@ -1392,7 +1392,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetReturn() {
+  static async getReturn() {
     try {
       const result = await returns.find({}).toArray();
 
@@ -1415,7 +1415,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetDelivery() {
+  static async getDelivery() {
     try {
       const result = await delivery.find({}).toArray();
 
@@ -1438,7 +1438,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetOpeningStock() {
+  static async getOpeningStock() {
     try {
       const result = await opening_stock.find({}).toArray();
 
@@ -1461,7 +1461,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetBillingEstimate() {
+  static async getBillingEstimate() {
     try {
       const result = await billingEstimate.find({}).toArray();
 
@@ -1484,7 +1484,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetProduction() {
+  static async getProduction() {
     try {
       const result = await production.find({}).toArray();
 
@@ -1507,7 +1507,7 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async apiGetSupportChart() {
+  static async getSupportChart() {
     try {
       const result = await support_chart.find({}).toArray();
 

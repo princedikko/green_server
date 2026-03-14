@@ -2,11 +2,12 @@ import inventoryDataAccessObject from "../data_access_objects/inventory_DAO.js";
 import { ObjectId } from "mongodb";
 
 export default class inventoryController {
-  static async addProduct(req, res, next) {
+  static async apiPostProducts(req, res, next) {
     try {
       const productData = req.body;
 
-      const response = await inventoryDataAccessObject.addProduct(productData);
+      const response =
+        await inventoryDataAccessObject.postProducts(productData);
 
       res.json({
         status: response.status,
@@ -43,48 +44,7 @@ export default class inventoryController {
       const _id = req.params.id;
       const $payment_type = req.params.payment_type;
 
-      const response = await inventoryDataAccessObject.apiPostItemSold(
-        sellings,
-        _id,
-        $payment_type,
-      );
-      res.json({
-        status: response.status,
-        message: response.message,
-        info: response.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  static async apiPostProductDB(req, res, next) {
-    try {
-      const data = req.body;
-      const _id = req.params.id;
-
-      const response = await inventoryDataAccessObject.apiPostProductDB(
-        data,
-        _id,
-      );
-
-      res.json({
-        status: response.status,
-        message: response.message,
-        info: response.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  static async apiPostSold(req, res, next) {
-    try {
-      const sellings = req.body;
-      const _id = req.params.id;
-      const $payment_type = req.params.payment_type;
-
-      const response = await inventoryDataAccessObject.apiPostItemSold(
+      const response = await inventoryDataAccessObject.postItemSold(
         sellings,
         _id,
         $payment_type,
@@ -105,10 +65,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostScanEvent(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postScanEvent(data, _id);
 
       res.json({
         status: response.status,
@@ -125,7 +82,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostDraft(data, _id);
+      const response = await inventoryDataAccessObject.postDraft(data, _id);
 
       res.json({
         status: response.status,
@@ -137,15 +94,12 @@ export default class inventoryController {
     }
   }
 
-  static async apiPostSoledItems(req, res, next) {
+  static async apiExecuteSales(req, res, next) {
     try {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostSoledItems(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.executeSales(data, _id);
 
       res.json({
         status: response.status,
@@ -162,10 +116,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostExpense(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postExpense(data, _id);
 
       res.json({
         status: response.status,
@@ -182,10 +133,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostQuotation(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postQuotation(data, _id);
 
       res.json({
         status: response.status,
@@ -202,7 +150,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostSubscription(
+      const response = await inventoryDataAccessObject.postSubscription(
         data,
         _id,
       );
@@ -222,7 +170,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostSellReturn(
+      const response = await inventoryDataAccessObject.postSellReturn(
         data,
         _id,
       );
@@ -242,7 +190,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostProductService(
+      const response = await inventoryDataAccessObject.postProductService(
         data,
         _id,
       );
@@ -262,7 +210,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostImport(data, _id);
+      const response = await inventoryDataAccessObject.postImport(data, _id);
 
       res.json({
         status: response.status,
@@ -279,7 +227,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostPricegroup(
+      const response = await inventoryDataAccessObject.postPricegroup(
         data,
         _id,
       );
@@ -299,7 +247,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostUnit(data, _id);
+      const response = await inventoryDataAccessObject.postUnit(data, _id);
 
       res.json({
         status: response.status,
@@ -316,10 +264,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostCategory(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postCategory(data, _id);
 
       res.json({
         status: response.status,
@@ -336,10 +281,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostTaxrate(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postTaxrate(data, _id);
 
       res.json({
         status: response.status,
@@ -356,10 +298,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostRecieve(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postRecieve(data, _id);
 
       res.json({
         status: response.status,
@@ -376,7 +315,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostReturn(data, _id);
+      const response = await inventoryDataAccessObject.postReturn(data, _id);
 
       res.json({
         status: response.status,
@@ -393,7 +332,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostOrder(data, _id);
+      const response = await inventoryDataAccessObject.postOrder(data, _id);
 
       res.json({
         status: response.status,
@@ -410,10 +349,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostDelivery(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postDelivery(data, _id);
 
       res.json({
         status: response.status,
@@ -430,7 +366,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostOpeningStock(
+      const response = await inventoryDataAccessObject.postOpeningStock(
         data,
         _id,
       );
@@ -450,10 +386,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostInvoice(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postInvoice(data, _id);
 
       res.json({
         status: response.status,
@@ -470,10 +403,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostPayment(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.postPayment(data, _id);
 
       res.json({
         status: response.status,
@@ -490,7 +420,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostBillingEstimate(
+      const response = await inventoryDataAccessObject.postBillingEstimate(
         data,
         _id,
       );
@@ -510,7 +440,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostProduction(
+      const response = await inventoryDataAccessObject.postProduction(
         data,
         _id,
       );
@@ -530,7 +460,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiPostSupportChart(
+      const response = await inventoryDataAccessObject.postSupportChart(
         data,
         _id,
       );
@@ -549,12 +479,10 @@ export default class inventoryController {
     try {
       const sellings = req.body;
       const _id = req.params.id;
-      const $payment_type = req.params.payment_type;
 
-      const response = await inventoryDataAccessObject.apiGetItemSold(
+      const response = await inventoryDataAccessObject.getItemSold(
         sellings,
         _id,
-        $payment_type,
       );
       res.json({
         status: response.status,
@@ -571,32 +499,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetProductDB(
-        data,
-        _id,
-      );
-
-      res.json({
-        status: response.status,
-        message: response.message,
-        info: response.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  static async apiGetSold(req, res, next) {
-    try {
-      const sellings = req.body;
-      const _id = req.params.id;
-      const $payment_type = req.params.payment_type;
-
-      const response = await inventoryDataAccessObject.apiGetItemSold(
-        sellings,
-        _id,
-        $payment_type,
-      );
+      const response = await inventoryDataAccessObject.getProductDB(data, _id);
 
       res.json({
         status: response.status,
@@ -613,10 +516,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetScanEvent(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getScanEvent(data, _id);
 
       res.json({
         status: response.status,
@@ -633,7 +533,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetDraft(data, _id);
+      const response = await inventoryDataAccessObject.getDraft(data, _id);
 
       res.json({
         status: response.status,
@@ -650,10 +550,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetSoledItems(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getSoledItems(data, _id);
 
       res.json({
         status: response.status,
@@ -670,7 +567,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetExpense(data, _id);
+      const response = await inventoryDataAccessObject.getExpense(data, _id);
 
       res.json({
         status: response.status,
@@ -687,10 +584,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetQuotation(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getQuotation(data, _id);
 
       res.json({
         status: response.status,
@@ -707,7 +601,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetSubscription(
+      const response = await inventoryDataAccessObject.getSubscription(
         data,
         _id,
       );
@@ -727,10 +621,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetSellReturn(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getSellReturn(data, _id);
 
       res.json({
         status: response.status,
@@ -747,7 +638,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetProductService(
+      const response = await inventoryDataAccessObject.getProductService(
         data,
         _id,
       );
@@ -767,7 +658,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetImport(data, _id);
+      const response = await inventoryDataAccessObject.getImport(data, _id);
 
       res.json({
         status: response.status,
@@ -784,10 +675,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetPricegroup(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getPricegroup(data, _id);
 
       res.json({
         status: response.status,
@@ -804,7 +692,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetUnit(data, _id);
+      const response = await inventoryDataAccessObject.getUnit(data, _id);
 
       res.json({
         status: response.status,
@@ -821,10 +709,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetCategory(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getCategory(data, _id);
 
       res.json({
         status: response.status,
@@ -841,7 +726,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetTaxrate(data, _id);
+      const response = await inventoryDataAccessObject.getTaxrate(data, _id);
 
       res.json({
         status: response.status,
@@ -858,7 +743,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetRecieve(data, _id);
+      const response = await inventoryDataAccessObject.getRecieve(data, _id);
 
       res.json({
         status: response.status,
@@ -875,7 +760,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetReturn(data, _id);
+      const response = await inventoryDataAccessObject.getReturn(data, _id);
 
       res.json({
         status: response.status,
@@ -892,7 +777,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetOrder(data, _id);
+      const response = await inventoryDataAccessObject.getOrder(data, _id);
 
       res.json({
         status: response.status,
@@ -909,10 +794,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetDelivery(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getDelivery(data, _id);
 
       res.json({
         status: response.status,
@@ -929,7 +811,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetOpeningStock(
+      const response = await inventoryDataAccessObject.getOpeningStock(
         data,
         _id,
       );
@@ -949,7 +831,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetInvoice(data, _id);
+      const response = await inventoryDataAccessObject.getInvoice(data, _id);
 
       res.json({
         status: response.status,
@@ -966,7 +848,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetPayment(data, _id);
+      const response = await inventoryDataAccessObject.getPayment(data, _id);
 
       res.json({
         status: response.status,
@@ -983,7 +865,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetBillingEstimate(
+      const response = await inventoryDataAccessObject.getBillingEstimate(
         data,
         _id,
       );
@@ -1003,10 +885,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetProduction(
-        data,
-        _id,
-      );
+      const response = await inventoryDataAccessObject.getProduction(data, _id);
 
       res.json({
         status: response.status,
@@ -1023,7 +902,7 @@ export default class inventoryController {
       const data = req.body;
       const _id = req.params.id;
 
-      const response = await inventoryDataAccessObject.apiGetSupportChart(
+      const response = await inventoryDataAccessObject.getSupportChart(
         data,
         _id,
       );

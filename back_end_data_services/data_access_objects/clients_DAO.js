@@ -36,7 +36,39 @@ export default class clientsDataAccessObject {
   }
 
   // * STATICS FUNCTIONS FOR ACCESSING DATA BASE COLLECTIONS
-  static async clientsignIn(username, password) {
+  static async clientSignIn(username, password) {
+    try {
+      const found = await clients.findOne({
+        "auth.loginUsername": username,
+      });
+
+      if (found) {
+        if (username === found.auth.loginUsername) {
+          if (found.auth.hashedPassword === password) {
+            return {
+              status: 201,
+              found: found,
+              message: "Masha Allaah, Login was successfully",
+            };
+          } else {
+            return {
+              status: 401,
+              found: null,
+              message: "Incorrect password",
+            };
+          }
+        }
+      } else
+        return {
+          status: 401,
+          found: null,
+          message: "Username not found",
+        };
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  static async apiSignUser(username, password) {
     try {
       const found = await clients.findOne({
         "auth.loginUsername": username,

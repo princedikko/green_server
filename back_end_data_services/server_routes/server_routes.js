@@ -22,27 +22,23 @@ const upload = multer({ storage: multer.memoryStorage() });
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 router.route("/clients/logins").post(clientsController.clientsLogin);
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+router.route("/clients/logins").post(clientsController.userLogin);
+// --------------------------------------------------------------------
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //                           Inventory Routers functions
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// ------------------------ API POST REQUESTS ---------------------------
 router
   .route("/client/:id/products/add_product")
-  .post(inventoryController.addProduct);
-router
-  .route("/client/:id/products/fetch_product")
-  .get(inventoryController.getAllProducts);
-
+  .post(inventoryController.apiPostProducts);
+router.route("/soled-items/:id").post(inventoryController.apiExecuteSales);
 router
   .route("/warehouse/selling/:id/submit_sale/:payment_type")
   .post(inventoryController.apiPostSold);
-
-router.route("/products/:id").post(inventoryController.apiPostProductDB);
-router.route("/sales/:id/:payment_type?").post(inventoryController.apiPostSold);
 router.route("/scan-events/:id").post(inventoryController.apiPostScanEvent);
 router.route("/drafts/:id").post(inventoryController.apiPostDraft);
-router.route("/soled-items/:id").post(inventoryController.apiPostSoledItems);
 router.route("/expenses/:id").post(inventoryController.apiPostExpense);
 router.route("/quotations/:id").post(inventoryController.apiPostQuotation);
 router
@@ -74,34 +70,78 @@ router
   .route("/support-charts/:id")
   .post(inventoryController.apiPostSupportChart);
 
+// ------------------------ API GET REQUESTS ---------------------------
 router
-  .route("/warehouse/selling/:id/submit_sale/:payment_type")
+  .route("/client/:id/products/fetch_product")
+  .get(inventoryController.getAllProducts);
+router
+  .route("/inventory/client/:id/get_sales")
   .get(inventoryController.apiGetSold);
 
-router.route("/products/:id").get(inventoryController.apiGetProductDB);
-router.route("/sales/:id/:payment_type?").get(inventoryController.apiGetSold);
-router.route("/scan-events/:id").get(inventoryController.apiGetScanEvent);
-router.route("/drafts/:id").get(inventoryController.apiGetDraft);
-router.route("/soled-items/:id").get(inventoryController.apiGetSoledItems);
-router.route("/expenses/:id").get(inventoryController.apiGetExpense);
-router.route("/quotations/:id").get(inventoryController.apiGetQuotation);
-router.route("/subscriptions/:id").get(inventoryController.apiGetSubscription);
-router.route("/sell-returns/:id").get(inventoryController.apiGetSellReturn);
 router
-  .route("/product-services/:id")
+  .route("/inventory/client/:id/products")
+  .get(inventoryController.apiGetProductDB);
+router
+  .route("/inventory/client/:id/sales/:id/:payment_?")
+  .get(inventoryController.apiGetSold);
+router
+  .route("/inventory/client/:id/scan-events")
+  .get(inventoryController.apiGetScanEvent);
+router
+  .route("/inventory/client/:id/drafts")
+  .get(inventoryController.apiGetDraft);
+router
+  .route("/inventory/client/:id/soled-items")
+  .get(inventoryController.apiGetSoledItems);
+router
+  .route("/inventory/client/:id/expenses")
+  .get(inventoryController.apiGetExpense);
+router
+  .route("/inventory/client/:id/quotation")
+  .get(inventoryController.apiGetQuotation);
+router
+  .route("/inventory/client/:id/subscriptions")
+  .get(inventoryController.apiGetSubscription);
+router
+  .route("/inventory/client/:id/sell-returns")
+  .get(inventoryController.apiGetSellReturn);
+router
+  .route("/inventory/client/:id/product-services")
   .get(inventoryController.apiGetProductService);
-router.route("/imports/:id").get(inventoryController.apiGetImport);
-router.route("/price-groups/:id").get(inventoryController.apiGetPricegroup);
-router.route("/units/:id").get(inventoryController.apiGetUnit);
-router.route("/categories/:id").get(inventoryController.apiGetCategory);
-router.route("/tax-rates/:id").get(inventoryController.apiGetTaxrate);
-router.route("/receives/:id").get(inventoryController.apiGetRecieve);
-router.route("/returns/:id").get(inventoryController.apiGetReturn);
-router.route("/orders/:id").get(inventoryController.apiGetOrder);
-router.route("/deliveries/:id").get(inventoryController.apiGetDelivery);
-router.route("/opening-stock/:id").get(inventoryController.apiGetOpeningStock);
-router.route("/invoices/:id").get(inventoryController.apiGetInvoices);
-router.route("/payments/:id").get(inventoryController.apiGetPayments);
+router
+  .route("/inventory/client/:id/imports")
+  .get(inventoryController.apiGetImport);
+router
+  .route("/inventory/client/:id/price-groups")
+  .get(inventoryController.apiGetPricegroup);
+router.route("/inventory/client/:id/units").get(inventoryController.apiGetUnit);
+router
+  .route("/inventory/client/:id/categories")
+  .get(inventoryController.apiGetCategory);
+router
+  .route("/inventory/client/:id/tax-rates")
+  .get(inventoryController.apiGetTaxrate);
+router
+  .route("/inventory/client/:id/receives")
+  .get(inventoryController.apiGetRecieve);
+router
+  .route("/inventory/client/:id/returns")
+  .get(inventoryController.apiGetReturn);
+router
+  .route("/inventory/client/:id/orders")
+  .get(inventoryController.apiGetOrder);
+router
+  .route("/inventory/client/:id/deliveries")
+  .get(inventoryController.apiGetDelivery);
+router
+  .route("/inventory/client/:id/opening-stock")
+  .get(inventoryController.apiGetOpeningStock);
+router
+  .route("/inventory/client/:id/invoices")
+  .get(inventoryController.apiGetInvoices);
+router
+  .route("/inventory/client/:id/payments")
+  .get(inventoryController.apiGetPayments);
 router
   .route("/billing-estimates/:id")
   .get(inventoryController.apiGetBillingEstimate);
@@ -118,7 +158,6 @@ router.route("/admin_login").post(adminController.adminLogin);
 router.route("/fetch_admin_data").get(adminController.apiGetAdministrations);
 
 // SMS AND EMAIL RESPONSE Routes________________________________________________
-
 // SYSTEM ADMIN ROUTES************************************
 
 router
