@@ -20,6 +20,7 @@ export default class clientsDataAccessObject {
       );
     }
   }
+
   static async injectClients(connections) {
     if (clients) {
       return;

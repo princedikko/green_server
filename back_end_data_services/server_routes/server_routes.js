@@ -22,7 +22,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 router.route("/clients/logins").post(clientsController.clientsLogin);
-router.route("/clients/logins").post(clientsController.userLogin);
+router.route("/users/logins").post(clientsController.userLogin);
 // --------------------------------------------------------------------
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
