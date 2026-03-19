@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 
-let productDB,
+let contact,
+  productDB,
+  productionDB,
   sales,
   scanEvent,
   drafts,
@@ -36,6 +38,25 @@ export default class inventoryDataAccessObject {
       productDB = await connection.db("products_store").collection("products");
     } catch (err) {
       console.log(`Unable to connect to products collection: ${err}`);
+    }
+  }
+
+  static async injectProduction(connection) {
+    if (production) return;
+    try {
+      production = await connection
+        .db("products_store")
+        .collection("production");
+    } catch (err) {
+      console.log(`Unable to connect to production collection: ${err}`);
+    }
+  }
+  static async injectContactDB(connection) {
+    if (contact) return;
+    try {
+      contact = await connection.db("contacts").collection("customers_contact");
+    } catch (err) {
+      console.log(`Unable to connect to contacts collection: ${err}`);
     }
   }
   static async injectSales(connections) {
@@ -268,17 +289,6 @@ export default class inventoryDataAccessObject {
     }
   }
 
-  static async injectProduction(connection) {
-    if (production) return;
-    try {
-      production = await connection
-        .db("products_store")
-        .collection("production");
-    } catch (err) {
-      console.log(`Unable to connect to production collection: ${err}`);
-    }
-  }
-
   static async injectSupportChart(connection) {
     if (support_chart) return;
     try {
@@ -295,6 +305,41 @@ export default class inventoryDataAccessObject {
   // **********************************************************
   //  CALL FUNCTIONS
   // **********************************************************
+  static async postContacts(productData) {
+    try {
+      const { insertedId } = await contact.insertOne({
+        ...productData,
+        status: productData.status || "ACTIVE",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      const insertResult = await productDB
+        .find({ _id: new ObjectId(insertedId) })
+        .toArray();
+
+      if (insertResult) {
+        return {
+          status: 201,
+          message: "Contact added successfully",
+          info: insertResult,
+        };
+      } else {
+        return {
+          status: 400,
+          message: "Contact adding failed",
+          info: null,
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 500,
+        message: err + "Error adding product",
+        info: null,
+      };
+    }
+  }
   static async postProducts(productData) {
     try {
       const { insertedId } = await productDB.insertOne({
@@ -304,7 +349,9 @@ export default class inventoryDataAccessObject {
         updatedAt: new Date(),
       });
 
-      const insertResult = await productDB.find({});
+      const insertResult = await productDB
+        .find({ _id: new ObjectId(insertedId) })
+        .toArray();
 
       if (insertResult) {
         return {
@@ -350,13 +397,13 @@ export default class inventoryDataAccessObject {
       } else {
         const { insertedId } = await sales.insertOne(sellings);
         // Retrieve the newly inserted document
-        const data = await sales.findOne({
+        const sold = await sales.findOne({
           _id: new ObjectId(insertedId),
         });
         return {
           status: 201,
           message: "Sales Submitted successfully",
-          data: data,
+          data: sold,
         };
       }
     } catch (error) {
@@ -396,17 +443,16 @@ export default class inventoryDataAccessObject {
 
   static async postDraft(data, _id) {
     try {
-      const $existed = await drafts.findOne({ draftId: _id });
+      const $existed = await drafts.findOne({ draftId: "weradf" });
 
       if ($existed) {
         return {
           status: 203,
-          message: "Draft already submitted",
+          message: "already existed",
           data: null,
         };
       } else {
         const { insertedId } = await drafts.insertOne(data);
-
         const result = await drafts.findOne({
           _id: new ObjectId(insertedId),
         });
@@ -1005,12 +1051,12 @@ export default class inventoryDataAccessObject {
 
   static async getItemSold(sellings, _id) {
     try {
-      const data = await sales.find({}).toArray();
+      const solds = await sales.find({}).toArray();
       if (data) {
         return {
           status: 201,
           message: "Sales found successfully",
-          data: data,
+          data: solds,
         };
       } else {
         return {
@@ -1049,13 +1095,12 @@ export default class inventoryDataAccessObject {
 
   static async getDraft() {
     try {
-      const result = await drafts.find({}).toArray();
-
-      if (result) {
+      const data = await drafts.find({}).toArray();
+      if (data) {
         return {
           status: 201,
           message: "Draft found successfully",
-          data: result,
+          data: data,
         };
       } else {
         return {
@@ -1065,7 +1110,7 @@ export default class inventoryDataAccessObject {
         };
       }
     } catch (error) {
-      console.log(`draft failed ${error}`);
+      console.log(`selling fails ${error}`);
       return error;
     }
   }

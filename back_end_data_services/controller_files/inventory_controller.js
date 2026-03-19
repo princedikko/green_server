@@ -2,6 +2,23 @@ import inventoryDataAccessObject from "../data_access_objects/inventory_DAO.js";
 import { ObjectId } from "mongodb";
 
 export default class inventoryController {
+  static async apiPostContacts(req, res, next) {
+    try {
+      const productData = req.body;
+
+      const response =
+        await inventoryDataAccessObject.postContacts(productData);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.info,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ status: 500, message: "Server error" });
+    }
+  }
   static async apiPostProducts(req, res, next) {
     try {
       const productData = req.body;
@@ -35,28 +52,6 @@ export default class inventoryController {
         status: 500,
         message: "Server error",
       });
-    }
-  }
-
-  static async apiPostSold(req, res, next) {
-    try {
-      const sellings = req.body;
-      const _id = req.params.id;
-      const $payment_type = req.params.payment_type;
-
-      const response = await inventoryDataAccessObject.postItemSold(
-        sellings,
-        _id,
-        $payment_type,
-      );
-
-      res.json({
-        status: response.status,
-        message: response.message,
-        info: response.data,
-      });
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -149,7 +144,6 @@ export default class inventoryController {
     try {
       const data = req.body;
       const _id = req.params.id;
-
       const response = await inventoryDataAccessObject.postSubscription(
         data,
         _id,
@@ -158,7 +152,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        data: response.data,
       });
     } catch (error) {
       console.log(error);

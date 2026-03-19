@@ -31,19 +31,29 @@ router.route("/users/logins").post(clientsController.userLogin);
 
 // ------------------------ API POST REQUESTS ---------------------------
 router
-  .route("/client/:id/products/add_product")
+  .route("/client/:id/manage_products/add_product")
   .post(inventoryController.apiPostProducts);
-router.route("/soled-items/:id").post(inventoryController.apiExecuteSales);
+router.route("/production/:id").post(inventoryController.apiPostProduction);
+
 router
-  .route("/warehouse/selling/:id/submit_sale/:payment_type")
-  .post(inventoryController.apiPostSold);
-router.route("/scan-events/:id").post(inventoryController.apiPostScanEvent);
-router.route("/drafts/:id").post(inventoryController.apiPostDraft);
-router.route("/expenses/:id").post(inventoryController.apiPostExpense);
-router.route("/quotations/:id").post(inventoryController.apiPostQuotation);
+  .route("/client/:id/contacts/:contact_id/add_contact")
+  .post(inventoryController.apiPostContacts);
 router
-  .route("/subscriptions/:id")
+  .route("/client/:id/point_of_sales/payment/:payment_type")
+  .post(inventoryController.apiExecuteSales);
+
+router
+  .route("/client/:id/point_of_sales/save_draft")
+  .post(inventoryController.apiPostDraft);
+router
+  .route("/client/:id/point_of_sales/quotation")
+  .post(inventoryController.apiPostQuotation);
+router
+  .route("/client/:id/point_of_sales/subscribe")
   .post(inventoryController.apiPostSubscription);
+// ......................... SUPPORT GEOMETRIC ..........................
+
+router.route("/expenses/:id").post(inventoryController.apiPostExpense);
 router.route("/sell-returns/:id").post(inventoryController.apiPostSellReturn);
 router
   .route("/product-services/:id")
@@ -65,10 +75,10 @@ router.route("/payments/:id").post(inventoryController.apiPostPayments);
 router
   .route("/billing-estimates/:id")
   .post(inventoryController.apiPostBillingEstimate);
-router.route("/production/:id").post(inventoryController.apiPostProduction);
 router
   .route("/support-charts/:id")
   .post(inventoryController.apiPostSupportChart);
+router.route("/scan-events/:id").post(inventoryController.apiPostScanEvent);
 
 // ------------------------ API GET REQUESTS ---------------------------
 router
@@ -77,6 +87,14 @@ router
 router
   .route("/inventory/client/:id/get_sales")
   .get(inventoryController.apiGetSold);
+
+router
+  .route("/inventory/client/:id/drafts")
+  .get(inventoryController.apiGetDraft);
+router
+  .route("/inventory/client/:id/quotation")
+  .get(inventoryController.apiGetQuotation);
+// ........................ SUPPORT GEOMETRIC ..........................
 
 router
   .route("/inventory/client/:id/products")
@@ -88,17 +106,11 @@ router
   .route("/inventory/client/:id/scan-events")
   .get(inventoryController.apiGetScanEvent);
 router
-  .route("/inventory/client/:id/drafts")
-  .get(inventoryController.apiGetDraft);
-router
   .route("/inventory/client/:id/soled-items")
   .get(inventoryController.apiGetSoledItems);
 router
   .route("/inventory/client/:id/expenses")
   .get(inventoryController.apiGetExpense);
-router
-  .route("/inventory/client/:id/quotation")
-  .get(inventoryController.apiGetQuotation);
 router
   .route("/inventory/client/:id/subscriptions")
   .get(inventoryController.apiGetSubscription);
