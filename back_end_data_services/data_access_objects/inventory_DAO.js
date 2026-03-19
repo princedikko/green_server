@@ -15,6 +15,7 @@ let contact,
   imports,
   pricegroups,
   units,
+  variations,
   productsCategories,
   taxrate,
   recieves,
@@ -200,6 +201,16 @@ export default class inventoryDataAccessObject {
     }
   }
 
+  static async injectVariable(connection) {
+    if (variations) return;
+    try {
+      variations = await connection
+        .db("products_store")
+        .collection("variations");
+    } catch (err) {
+      console.log(`Unable to connect to tax rates collection: ${err}`);
+    }
+  }
   static async injectTaxrate(connection) {
     if (taxrate) return;
     try {
@@ -820,6 +831,34 @@ export default class inventoryDataAccessObject {
   static async postTaxrate(data, _id) {
     try {
       const $existed = await taxrate.findOne({ taxrateId: _id });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Tax rate already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await taxrate.insertOne(data);
+
+        const result = await taxrate.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Tax rate submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`tax rate failed ${error}`);
+      return error;
+    }
+  }
+  static async postVariation(data, _id) {
+    try {
+      const $existed = await variations.findOne({ taxrateId: _id });
 
       if ($existed) {
         return {

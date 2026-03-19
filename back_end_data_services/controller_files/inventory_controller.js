@@ -286,6 +286,22 @@ export default class inventoryController {
       console.log(error);
     }
   }
+  static async apiPostVariation(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.postVariation(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        info: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   static async apiPostRecieve(req, res, next) {
     try {

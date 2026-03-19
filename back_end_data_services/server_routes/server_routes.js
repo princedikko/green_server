@@ -51,18 +51,32 @@ router
 router
   .route("/client/:id/point_of_sales/subscribe")
   .post(inventoryController.apiPostSubscription);
-// ......................... SUPPORT GEOMETRIC ..........................
 
+router
+  .route("/client/:id/manage_products/create-price-group")
+  .post(inventoryController.apiPostPricegroup);
+router
+  .route("/client/:id/manage_products/create-unit")
+  .post(inventoryController.apiPostUnit);
+router
+  .route("/client/:id/manage_products/create-brand")
+  .post(inventoryController.apiPostUnit);
+router
+  .route("/client/:id/manage_products/create-category")
+  .post(inventoryController.apiPostCategory);
+router
+  .route("/client/:id/manage_products/create-tax")
+  .post(inventoryController.apiPostTaxrate);
+router
+  .route("/client/:id/manage_products/post-variation")
+  .post(inventoryController.apiPostVariation);
+router
+  .route("/client/:id/manage_products/post-service")
+  .post(inventoryController.apiPostProductService);
+// ......................... SUPPORT GEOMETRIC ..........................
+router.route("/imports/:id").post(inventoryController.apiPostImport);
 router.route("/expenses/:id").post(inventoryController.apiPostExpense);
 router.route("/sell-returns/:id").post(inventoryController.apiPostSellReturn);
-router
-  .route("/product-services/:id")
-  .post(inventoryController.apiPostProductService);
-router.route("/imports/:id").post(inventoryController.apiPostImport);
-router.route("/price-groups/:id").post(inventoryController.apiPostPricegroup);
-router.route("/units/:id").post(inventoryController.apiPostUnit);
-router.route("/categories/:id").post(inventoryController.apiPostCategory);
-router.route("/tax-rates/:id").post(inventoryController.apiPostTaxrate);
 router.route("/receives/:id").post(inventoryController.apiPostRecieve);
 router.route("/returns/:id").post(inventoryController.apiPostReturn);
 router.route("/orders/:id").post(inventoryController.apiPostOrder);
