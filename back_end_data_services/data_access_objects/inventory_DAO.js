@@ -5,6 +5,7 @@ let contact,
   productionDB,
   sales,
   scanEvent,
+  discounts,
   drafts,
   soledItems,
   expenses,
@@ -21,6 +22,10 @@ let contact,
   recieves,
   returns,
   orders,
+  discrepancy,
+  adjustment,
+  stock_reconciliation,
+  stockTransfer,
   delivery,
   opening_stock,
   invoices,
@@ -83,6 +88,17 @@ export default class inventoryDataAccessObject {
         .collection("scan_events");
     } catch (err) {
       console.log(`Unable to connect to scan events collection: ${err}`);
+    }
+  }
+
+  static async injectDiscount(connection) {
+    if (discounts) return;
+    try {
+      discounts = await connection
+        .db("products_selling")
+        .collection("discount_transactions");
+    } catch (err) {
+      console.log(`Unable to connect to discounts collection: ${err}`);
     }
   }
 
@@ -248,6 +264,16 @@ export default class inventoryDataAccessObject {
       console.log(`Unable to connect to orders collection: ${err}`);
     }
   }
+  static async injectStockTransfer(connection) {
+    if (stockTransfer) return;
+    try {
+      stockTransfer = await connection
+        .db("stock_records")
+        .collection("stock_transfers");
+    } catch (err) {
+      console.log(`Unable to connect to stock transfers collection: ${err}`);
+    }
+  }
 
   static async injectDelivery(connection) {
     if (delivery) return;
@@ -286,6 +312,45 @@ export default class inventoryDataAccessObject {
       payments = await connection.db("business_finance").collection("payments");
     } catch (err) {
       console.log(`Unable to connect to payments collection: ${err}`);
+    }
+  }
+
+  static async injectStockReconciliation(connection) {
+    if (stock_reconciliation) return;
+    try {
+      stock_reconciliation = await connection
+        .db("products_store")
+        .collection("stock_reconciliations");
+    } catch (err) {
+      console.log(
+        `Unable to connect to stock reconciliations collection: ${err}`,
+      );
+    }
+  }
+
+  static async injectDiscrepancy(connection) {
+    if (discrepancy) return;
+    try {
+      discrepancy = await connection
+        .db("products_store")
+        .collection("discrepancies");
+    } catch (err) {
+      console.log(
+        `Unable to connect to stock reconciliations collection: ${err}`,
+      );
+    }
+  }
+
+  static async injectAdjustment(connection) {
+    if (adjustment) return;
+    try {
+      adjustment = await connection
+        .db("products_store")
+        .collection("adjustments");
+    } catch (err) {
+      console.log(
+        `Unable to connect to stock reconciliations collection: ${err}`,
+      );
     }
   }
 
@@ -356,8 +421,6 @@ export default class inventoryDataAccessObject {
       const { insertedId } = await productDB.insertOne({
         ...productData,
         status: productData.status || "ACTIVE",
-        createdAt: new Date(),
-        updatedAt: new Date(),
       });
 
       const insertResult = await productDB
@@ -394,35 +457,109 @@ export default class inventoryDataAccessObject {
       return [];
     }
   }
+  // static async executeSales(sellings, _id, $payment_type) {
+  //   try {
+  //     const $existed = await sales.findOne({
+  //       saleId: _id,
+  //     });
+  //     if ($existed) {
+  //       return {
+  //         status: 203,
+  //         message: "Sales already submitted, do you want to resubmit?",
+  //         data: null,
+  //       };
+  //     } else {
+  //       const { insertedId } = await sales.insertOne(sellings);
+  //       // Retrieve the newly inserted document
+  //       const sold = await sales.findOne({
+  //         _id: new ObjectId(insertedId),
+  //       });
+  //       return {
+  //         status: 201,
+  //         message: "Sales Submitted successfully",
+  //         data: sold,
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(`selling fails ${error}`);
+  //     return error;
+  //   }
+  // }
+
   static async executeSales(sellings, _id, $payment_type) {
     try {
-      const $existed = await sales.findOne({
-        saleId: _id,
-      });
+      // Check if sale already exists
+      const $existed = await sales.findOne({ saleId: _id });
+
       if ($existed) {
         return {
           status: 203,
           message: "Sales already submitted, do you want to resubmit?",
           data: null,
         };
-      } else {
-        const { insertedId } = await sales.insertOne(sellings);
-        // Retrieve the newly inserted document
-        const sold = await sales.findOne({
-          _id: new ObjectId(insertedId),
-        });
-        return {
-          status: 201,
-          message: "Sales Submitted successfully",
-          data: sold,
-        };
       }
+
+      // Insert the sale
+      const { insertedId } = await sales.insertOne(sellings);
+      const soldItems = sellings.soldItems || [];
+
+      let result = null;
+      if (soldItems.length > 0) {
+        // Build updates with correct filter structure
+        const updates = soldItems.map((item) => ({
+          updateOne: {
+            filter: {
+              sku: item.sku,
+              "batches.batchNo": item.batch.batchNo,
+            },
+            update: {
+              $inc: {
+                "batches.$.quantity": -item.soldQuantity,
+              },
+            },
+          },
+        }));
+
+        result = await productDB.bulkWrite(updates, { ordered: false });
+
+        // Check for write errors
+        if (result.hasWriteErrors && result.hasWriteErrors()) {
+          const writeErrors = result.getWriteErrors();
+          console.error("Bulk write errors:", writeErrors);
+
+          // Rollback sale insertion
+          await sales.deleteOne({ _id: insertedId });
+
+          return {
+            status: 500,
+            message: "Inventory update failed for some items",
+            data: null,
+            errors: writeErrors.map((e) => e.errmsg),
+          };
+        }
+      }
+
+      // Retrieve inserted sale
+      const sold = await sales.findOne({
+        _id: new ObjectId(insertedId),
+      });
+
+      return {
+        status: 201,
+        message: "Sales Submitted successfully",
+        data: sold,
+        updateResult: result,
+      };
     } catch (error) {
-      console.log(`selling fails ${error}`);
-      return error;
+      console.error(`Sales submission failed: ${error}`);
+      return {
+        status: 500,
+        message: "Sales submission failed",
+        error: error.message,
+        data: null,
+      };
     }
   }
-
   static async postScanEvent(data, _id) {
     try {
       const $existed = await scanEvent.findOne({ scanId: _id });
@@ -448,6 +585,34 @@ export default class inventoryDataAccessObject {
       }
     } catch (error) {
       console.log(`scan event failed ${error}`);
+      return error;
+    }
+  }
+
+  static async postDiscount(data, _id) {
+    try {
+      const $existed = await discounts.findOne({ discountId: _id });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "already existed",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await discounts.insertOne(data);
+        const result = await discounts.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Discount submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`discount failed ${error}`);
       return error;
     }
   }
@@ -653,6 +818,34 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
+  static async postTransfer(data, _id) {
+    try {
+      const $existed = await stockTransfer.findOne({ orderId: _id });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Order already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await stockTransfer.insertOne(data);
+
+        const result = await stockTransfer.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Order submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`order failed ${error}`);
+      return error;
+    }
+  }
 
   static async postInvoice(data, _id) {
     try {
@@ -719,7 +912,8 @@ export default class inventoryDataAccessObject {
       if ($existed) {
         return {
           status: 203,
-          message: "Subscription already submitted",
+          message:
+            "Subscription saved successfully. Invoices will be generated automatically.",
           data: null,
         };
       } else {
@@ -867,20 +1061,20 @@ export default class inventoryDataAccessObject {
           data: null,
         };
       } else {
-        const { insertedId } = await taxrate.insertOne(data);
+        const { insertedId } = await variations.insertOne(data);
 
-        const result = await taxrate.findOne({
+        const result = await variations.findOne({
           _id: new ObjectId(insertedId),
         });
 
         return {
           status: 201,
-          message: "Tax rate submitted successfully",
+          message: "Variation submitted successfully",
           data: result,
         };
       }
     } catch (error) {
-      console.log(`tax rate failed ${error}`);
+      console.log(`variation failed ${error}`);
       return error;
     }
   }
@@ -1000,6 +1194,126 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
+  static async postStockReconciliation(data, _id) {
+    try {
+      const $existed = await stock_reconciliation.findOne({
+        reconciliationId: _id,
+      });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Stock reconciliation already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await stock_reconciliation.insertOne(data);
+
+        const result = await stock_reconciliation.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Stock reconciliation submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`stock reconciliation failed ${error}`);
+      return error;
+    }
+  }
+  static async postDiscrepancy(data, _id) {
+    try {
+      const $existed = await discrepancy.findOne({
+        discrepancyId: _id,
+      });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Stock reconciliation already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await discrepancy.insertOne(data);
+
+        const result = await discrepancy.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Stock discrepancy submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`stock discrepancy failed ${error}`);
+      return error;
+    }
+  }
+  static async postDiscrepancy(data, _id) {
+    try {
+      const $existed = await discrepancy.findOne({
+        discrepancyId: _id,
+      });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Stock reconciliation already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await discrepancy.insertOne(data);
+
+        const result = await discrepancy.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Stock discrepancy submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`stock discrepancy failed ${error}`);
+      return error;
+    }
+  }
+  static async postAdjustment(data, _id) {
+    try {
+      const $existed = await adjustment.findOne({
+        adjustmentId: _id,
+      });
+
+      if ($existed) {
+        return {
+          status: 203,
+          message: "Stock adjustment already submitted",
+          data: null,
+        };
+      } else {
+        const { insertedId } = await adjustment.insertOne(data);
+
+        const result = await adjustment.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        return {
+          status: 201,
+          message: "Stock adjustment submitted successfully",
+          data: result,
+        };
+      }
+    } catch (error) {
+      console.log(`stock adjustment failed ${error}`);
+      return error;
+    }
+  }
 
   static async postBillingEstimate(data, _id) {
     try {
@@ -1091,7 +1405,7 @@ export default class inventoryDataAccessObject {
   static async getItemSold(sellings, _id) {
     try {
       const solds = await sales.find({}).toArray();
-      if (data) {
+      if (solds) {
         return {
           status: 201,
           message: "Sales found successfully",
@@ -1128,6 +1442,28 @@ export default class inventoryDataAccessObject {
       }
     } catch (error) {
       console.log(`scan event failed ${error}`);
+      return error;
+    }
+  }
+
+  static async getDiscount() {
+    try {
+      const data = await discounts.find({}).toArray();
+      if (data) {
+        return {
+          status: 201,
+          message: "Discount found successfully",
+          data: data,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`discount fails ${error}`);
       return error;
     }
   }

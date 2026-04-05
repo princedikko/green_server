@@ -33,7 +33,9 @@ router.route("/users/logins").post(clientsController.userLogin);
 router
   .route("/client/:id/manage_products/add_product")
   .post(inventoryController.apiPostProducts);
-router.route("/production/:id").post(inventoryController.apiPostProduction);
+router
+  .route("/client/:id/account/production/post")
+  .post(inventoryController.apiPostProduction);
 
 router
   .route("/client/:id/contacts/:contact_id/add_contact")
@@ -45,6 +47,9 @@ router
 router
   .route("/client/:id/point_of_sales/save_draft")
   .post(inventoryController.apiPostDraft);
+router
+  .route("/client/:id/inventory/discount/create")
+  .post(inventoryController.apiPostDiscount);
 router
   .route("/client/:id/point_of_sales/quotation")
   .post(inventoryController.apiPostQuotation);
@@ -73,18 +78,47 @@ router
 router
   .route("/client/:id/manage_products/post-service")
   .post(inventoryController.apiPostProductService);
-// ......................... SUPPORT GEOMETRIC ..........................
-router.route("/imports/:id").post(inventoryController.apiPostImport);
-router.route("/expenses/:id").post(inventoryController.apiPostExpense);
-router.route("/sell-returns/:id").post(inventoryController.apiPostSellReturn);
-router.route("/receives/:id").post(inventoryController.apiPostRecieve);
-router.route("/returns/:id").post(inventoryController.apiPostReturn);
-router.route("/orders/:id").post(inventoryController.apiPostOrder);
-router.route("/deliveries/:id").post(inventoryController.apiPostDelivery);
 router
-  .route("/opening-stock/:id")
+  .route("/client/:id/manage_products/post_import")
+  .post(inventoryController.apiPostImport);
+router
+  .route("/client/:id/purchases/insert_recieve")
+  .post(inventoryController.apiPostRecieve);
+router
+  .route("/client/:id/purchases/post_return")
+  .post(inventoryController.apiPostReturn);
+router
+  .route("/client/:id/purchases/post_order")
+  .post(inventoryController.apiPostOrder);
+
+router
+  .route("/client/:id/stock_management/execute_transfers")
+  .post(inventoryController.apiPostTransfer);
+router
+  .route("/client/:id/stock_management/post_openingStock")
   .post(inventoryController.apiPostOpeningStock);
-router.route("/invoices/:id").post(inventoryController.apiPostInvoices);
+router
+  .route("/client/:id/stock_management/stock-reconciliation")
+  .post(inventoryController.apiPostStockReconciliation);
+router
+  .route("/client/:id/stock_management/stock-discripancy")
+  .post(inventoryController.apiPostDiscrepancy);
+router
+  .route("/client/:id/stock_management/stock-adjustment")
+  .post(inventoryController.apiPostAdjustment);
+
+router
+  .route("/client/:id/expenses/post")
+  .post(inventoryController.apiPostExpense);
+router
+  .route("/client/:id/invoicing/post")
+  .post(inventoryController.apiPostInvoices);
+
+router
+  .route("/client/:id/inventory/sellreturn/post")
+  .post(inventoryController.apiPostSellReturn);
+// ......................... SUPPORT GEOMETRIC ..........................
+router.route("/deliveries/:id").post(inventoryController.apiPostDelivery);
 router.route("/payments/:id").post(inventoryController.apiPostPayments);
 router
   .route("/billing-estimates/:id")
@@ -99,9 +133,12 @@ router
   .route("/client/:id/products/fetch_product")
   .get(inventoryController.getAllProducts);
 router
-  .route("/inventory/client/:id/get_sales")
+  .route("/inventory/client/:id/get_sold_items")
   .get(inventoryController.apiGetSold);
 
+router
+  .route("/client/:id/inventory/discount/fetch")
+  .get(inventoryController.apiGetDiscount);
 router
   .route("/inventory/client/:id/drafts")
   .get(inventoryController.apiGetDraft);
@@ -126,7 +163,7 @@ router
   .route("/inventory/client/:id/expenses")
   .get(inventoryController.apiGetExpense);
 router
-  .route("/inventory/client/:id/subscriptions")
+  .route("/inventory/client/:id/get_subscriptions")
   .get(inventoryController.apiGetSubscription);
 router
   .route("/inventory/client/:id/sell-returns")

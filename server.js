@@ -6,17 +6,26 @@ import jool_routes from "./back_end_data_services/server_routes/server_routes.js
 
 const app = express();
 
+// CORS configuration
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
+      "http://jool365.com",
       "https://jool365.com",
-      "https://www.jool265.com",
-    ], // allow frontend URLs
-    methods: ["GET", "POST", "PUT", "DELETE"], // allow these HTTP methods
-    credentials: true, // allow cookies if needed
+      "http://localhost:3000",
+    ], // allow frontend domains
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   }),
 );
+
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "http://jool365.com");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
+});
 
 app.use(express.json());
 
