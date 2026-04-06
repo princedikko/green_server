@@ -58,7 +58,7 @@ router
   .post(inventoryController.apiPostSubscription);
 
 router
-  .route("/client/:id/manage_products/create-price-group")
+  .route("/client/:id/manage_products/price_groups/add_price_group")
   .post(inventoryController.apiPostPricegroup);
 router
   .route("/client/:id/manage_products/create-unit")
@@ -130,12 +130,11 @@ router.route("/scan-events/:id").post(inventoryController.apiPostScanEvent);
 
 // ------------------------ API GET REQUESTS ---------------------------
 router
-  .route("/client/:id/products/fetch_product")
-  .get(inventoryController.getAllProducts);
+  .route("/manage_products/client/:id/products/fetch_product")
+  .get(inventoryController.apiGetProductDB);
 router
   .route("/inventory/client/:id/get_sold_items")
   .get(inventoryController.apiGetSold);
-
 router
   .route("/client/:id/inventory/discount/fetch")
   .get(inventoryController.apiGetDiscount);
@@ -145,11 +144,11 @@ router
 router
   .route("/inventory/client/:id/quotation")
   .get(inventoryController.apiGetQuotation);
+router
+  .route("/manage_products/client/:id/:brand/fetch_brands")
+  .get(inventoryController.apiGetBrand);
 // ........................ SUPPORT GEOMETRIC ..........................
 
-router
-  .route("/inventory/client/:id/products")
-  .get(inventoryController.apiGetProductDB);
 router
   .route("/inventory/client/:id/sales/:id/:payment_?")
   .get(inventoryController.apiGetSold);
@@ -166,23 +165,25 @@ router
   .route("/inventory/client/:id/get_subscriptions")
   .get(inventoryController.apiGetSubscription);
 router
-  .route("/inventory/client/:id/sell-returns")
+  .route("/manage_products/client/:id/sell-returns")
   .get(inventoryController.apiGetSellReturn);
 router
   .route("/inventory/client/:id/product-services")
   .get(inventoryController.apiGetProductService);
 router
-  .route("/inventory/client/:id/imports")
+  .route("/manage_products/client/:id/imports")
   .get(inventoryController.apiGetImport);
 router
-  .route("/inventory/client/:id/price-groups")
+  .route("/manage_products/client/:id/price_groups/get_price_groups")
   .get(inventoryController.apiGetPricegroup);
-router.route("/inventory/client/:id/units").get(inventoryController.apiGetUnit);
+router
+  .route("/manage_products/client/:id/units/get")
+  .get(inventoryController.apiGetUnit);
 router
   .route("/inventory/client/:id/categories")
   .get(inventoryController.apiGetCategory);
 router
-  .route("/inventory/client/:id/tax-rates")
+  .route("/manage_products/client/:id/tax-rates")
   .get(inventoryController.apiGetTaxrate);
 router
   .route("/inventory/client/:id/receives")

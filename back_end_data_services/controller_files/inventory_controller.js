@@ -37,24 +37,6 @@ export default class inventoryController {
     }
   }
 
-  static async getAllProducts(req, res) {
-    try {
-      const products = await inventoryDataAccessObject.getAllProducts();
-
-      res.json({
-        status: 200,
-        message: "Products fetched successfully",
-        info: products,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        status: 500,
-        message: "Server error",
-      });
-    }
-  }
-
   static async apiPostScanEvent(req, res, next) {
     try {
       const data = req.body;
@@ -607,7 +589,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        productDB: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -715,6 +697,21 @@ export default class inventoryController {
       console.log(error);
     }
   }
+  static async apiGetBrand(req, res, next) {
+    try {
+      const brand = req.params.brand;
+
+      const response = await inventoryDataAccessObject.getBrand(brand);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        brandsData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   static async apiGetSubscription(req, res, next) {
     try {
@@ -783,7 +780,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        importsData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -800,7 +797,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        priceGroupsData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -817,7 +814,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        unitsInfo: response.data,
       });
     } catch (error) {
       console.log(error);

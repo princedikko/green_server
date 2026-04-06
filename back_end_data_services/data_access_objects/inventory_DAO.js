@@ -449,14 +449,7 @@ export default class inventoryDataAccessObject {
       };
     }
   }
-  static async getAllProducts() {
-    try {
-      return await productDB.find({ status: "ACTIVE" }).toArray();
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
-  }
+
   // static async executeSales(sellings, _id, $payment_type) {
   //   try {
   //     const $existed = await sales.findOne({
@@ -1513,6 +1506,40 @@ export default class inventoryDataAccessObject {
     }
   }
 
+  static async getBrand(brand) {
+    try {
+      let result;
+      if (brand !== "all") {
+        result = await productDB
+          .find(
+            { brand: { $regex: brand, $options: "i" } },
+            { projection: { name: 1, brand: 1, sku: 1, _id: 0 } },
+          )
+          .toArray();
+      } else {
+        result = await productDB
+          .find({}, { projection: { name: 1, brand: 1, sku: 1, _id: 0 } })
+          .toArray();
+      }
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Brand found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`quotation failed ${error}`);
+      return error;
+    }
+  }
   static async getQuotation() {
     try {
       const result = await quotation.find({}).toArray();
@@ -1900,6 +1927,28 @@ export default class inventoryDataAccessObject {
       }
     } catch (error) {
       console.log(`estimate failed ${error}`);
+      return error;
+    }
+  }
+
+  static async getProductDB() {
+    try {
+      const pDB = await productDB.find({}).toArray();
+      if (pDB) {
+        return {
+          status: 201,
+          message: "Products found successfully",
+          data: pDB,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`selling fails ${error}`);
       return error;
     }
   }
