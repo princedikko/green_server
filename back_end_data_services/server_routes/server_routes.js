@@ -101,7 +101,7 @@ router
   .route("/client/:id/stock_management/stock-reconciliation")
   .post(inventoryController.apiPostStockReconciliation);
 router
-  .route("/client/:id/stock_management/stock-discripancy")
+  .route("/client/:id/stock_management/stock-discrepancy")
   .post(inventoryController.apiPostDiscrepancy);
 router
   .route("/client/:id/stock_management/stock-adjustment")
@@ -117,8 +117,10 @@ router
 router
   .route("/client/:id/inventory/sellreturn/post")
   .post(inventoryController.apiPostSellReturn);
+router
+  .route("/client/:id/stock_management/post_delivery")
+  .post(inventoryController.apiPostDelivery);
 // ......................... SUPPORT GEOMETRIC ..........................
-router.route("/deliveries/:id").post(inventoryController.apiPostDelivery);
 router.route("/payments/:id").post(inventoryController.apiPostPayments);
 router
   .route("/billing-estimates/:id")
@@ -147,8 +149,44 @@ router
 router
   .route("/manage_products/client/:id/:brand/fetch_brands")
   .get(inventoryController.apiGetBrand);
-// ........................ SUPPORT GEOMETRIC ..........................
+router
+  .route("/client/:id/manage_products/get-variations")
+  .get(inventoryController.apiGetVariation);
 
+router
+  .route("/purchases/client/:id/get_receives")
+  .get(inventoryController.apiGetRecieve);
+router
+  .route("/purchases/client/:id/get_returns")
+  .get(inventoryController.apiGetReturn);
+router
+  .route("/purchases/client/:id/get_orders")
+  .get(inventoryController.apiGetOrder);
+
+router
+  .route("/client/:id/manage_stocks/fetch_openingStocks")
+  .get(inventoryController.apiGetOpeningStock);
+router
+  .route("/client/:id/manage_stocks/fetch_deliveries")
+  .get(inventoryController.apiGetDelivery);
+router
+  .route("/client/:id/manage_stocks/fetch_transfers")
+  .get(inventoryController.apiGetTransfer);
+router
+  .route("/client/:id/manage_stocks/fetch_reconciliations")
+  .get(inventoryController.apiGetStockReconciliation);
+router
+  .route("/client/:id/manage_stocks/fetch_discrepancies")
+  .get(inventoryController.apiGetDiscrepancy);
+router
+  .route("/client/:id/manage_stocks/fetch_adjustments")
+  .get(inventoryController.apiGetAdjustment);
+
+router.route("/client/:id/expenses/get").get(inventoryController.apiGetExpense);
+router
+  .route("/client/:id/invoicing/get")
+  .get(inventoryController.apiGetInvoices);
+// ........................ SUPPORT GEOMETRIC ..........................
 router
   .route("/inventory/client/:id/sales/:id/:payment_?")
   .get(inventoryController.apiGetSold);
@@ -159,16 +197,13 @@ router
   .route("/inventory/client/:id/soled-items")
   .get(inventoryController.apiGetSoledItems);
 router
-  .route("/inventory/client/:id/expenses")
-  .get(inventoryController.apiGetExpense);
-router
   .route("/inventory/client/:id/get_subscriptions")
   .get(inventoryController.apiGetSubscription);
 router
   .route("/manage_products/client/:id/sell-returns")
   .get(inventoryController.apiGetSellReturn);
 router
-  .route("/inventory/client/:id/product-services")
+  .route("/client/:id/products_services/fetch_services")
   .get(inventoryController.apiGetProductService);
 router
   .route("/manage_products/client/:id/imports")
@@ -180,36 +215,20 @@ router
   .route("/manage_products/client/:id/units/get")
   .get(inventoryController.apiGetUnit);
 router
-  .route("/inventory/client/:id/categories")
+  .route("/manage_products/client/:id/categories/get_categories")
   .get(inventoryController.apiGetCategory);
 router
-  .route("/manage_products/client/:id/tax-rates")
+  .route("/client/:id/manage_products/get-tax-rates")
   .get(inventoryController.apiGetTaxrate);
-router
-  .route("/inventory/client/:id/receives")
-  .get(inventoryController.apiGetRecieve);
-router
-  .route("/inventory/client/:id/returns")
-  .get(inventoryController.apiGetReturn);
-router
-  .route("/inventory/client/:id/orders")
-  .get(inventoryController.apiGetOrder);
-router
-  .route("/inventory/client/:id/deliveries")
-  .get(inventoryController.apiGetDelivery);
-router
-  .route("/inventory/client/:id/opening-stock")
-  .get(inventoryController.apiGetOpeningStock);
-router
-  .route("/inventory/client/:id/invoices")
-  .get(inventoryController.apiGetInvoices);
 router
   .route("/inventory/client/:id/payments")
   .get(inventoryController.apiGetPayments);
 router
   .route("/billing-estimates/:id")
   .get(inventoryController.apiGetBillingEstimate);
-router.route("/production/:id").get(inventoryController.apiGetProduction);
+router
+  .route("/client/:id/account/production/get")
+  .get(inventoryController.apiGetProduction);
 router.route("/support-charts/:id").get(inventoryController.apiGetSupportChart);
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ END OF ROUTER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 router

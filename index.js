@@ -59,6 +59,7 @@ MongoClient.connect(process.env.DATA_BASE_CONN_URI, {
     await inventoryDataAccessObject.injectOrders(client);
     await inventoryDataAccessObject.injectDelivery(client);
     await inventoryDataAccessObject.injectOpeningStock(client);
+    await inventoryDataAccessObject.injectDiscrepancy(client);
     await inventoryDataAccessObject.injectInvoices(client);
     await inventoryDataAccessObject.injectPayments(client);
     await inventoryDataAccessObject.injectBillingEstimate(client);

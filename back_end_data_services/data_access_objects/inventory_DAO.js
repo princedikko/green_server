@@ -1043,14 +1043,15 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
-  static async postVariation(data, _id) {
+  static async postVariation(data) {
+    const variableId = "dfxxvcs";
     try {
-      const $existed = await variations.findOne({ taxrateId: _id });
+      const $existed = await variations.findOne({ variationId: variableId });
 
       if ($existed) {
         return {
           status: 203,
-          message: "Tax rate already submitted",
+          message: "Variation already submitted",
           data: null,
         };
       } else {
@@ -1540,6 +1541,30 @@ export default class inventoryDataAccessObject {
       return error;
     }
   }
+  static async getVariation() {
+    try {
+      let result;
+
+      result = await variations.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Variation found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`quotation failed ${error}`);
+      return error;
+    }
+  }
   static async getQuotation() {
     try {
       const result = await quotation.find({}).toArray();
@@ -1593,7 +1618,7 @@ export default class inventoryDataAccessObject {
       if (result) {
         return {
           status: 201,
-          message: "Service found successfully",
+          message: "Services of the products found successfully",
           data: result,
         };
       } else {
@@ -1772,7 +1797,9 @@ export default class inventoryDataAccessObject {
 
   static async getCategory() {
     try {
-      const result = await productsCategories.find({}).toArray();
+      let result;
+
+      result = await productsCategories.find({}).toArray();
 
       if (result) {
         return {
@@ -1858,6 +1885,73 @@ export default class inventoryDataAccessObject {
       }
     } catch (error) {
       console.log(`return failed ${error}`);
+      return error;
+    }
+  }
+
+  static async getTransfer() {
+    try {
+      const result = await stockTransfer.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Transfer found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`transfer failed ${error}`);
+      return error;
+    }
+  }
+  static async getStockReconciliation() {
+    try {
+      const result = await stock_reconciliation.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Reconciliation found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`reconciliation failed ${error}`);
+      return error;
+    }
+  }
+  static async getAdjustment() {
+    try {
+      const result = await adjustment.find({}).toArray();
+
+      if (result) {
+        return {
+          status: 201,
+          message: "Adjustment found successfully",
+          data: result,
+        };
+      } else {
+        return {
+          status: 401,
+          message: "Nothing found",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.log(`adjustment failed ${error}`);
       return error;
     }
   }

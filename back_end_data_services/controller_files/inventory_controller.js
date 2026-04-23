@@ -291,10 +291,7 @@ export default class inventoryController {
   static async apiPostVariation(req, res, next) {
     try {
       const data = req.body;
-      const _id = req.params.id;
-
-      const response = await inventoryDataAccessObject.postVariation(data, _id);
-
+      const response = await inventoryDataAccessObject.postVariation(data);
       res.json({
         status: response.status,
         message: response.message,
@@ -382,7 +379,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        deliveriesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -674,7 +671,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        expenseData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -707,6 +704,19 @@ export default class inventoryController {
         status: response.status,
         message: response.message,
         brandsData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async apiGetVariation(req, res, next) {
+    try {
+      const response = await inventoryDataAccessObject.getVariation();
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        variationsData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -763,7 +773,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        productsServicesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -823,15 +833,12 @@ export default class inventoryController {
 
   static async apiGetCategory(req, res, next) {
     try {
-      const data = req.body;
-      const _id = req.params.id;
-
-      const response = await inventoryDataAccessObject.getCategory(data, _id);
+      const response = await inventoryDataAccessObject.getCategory();
 
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        categoriesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -840,15 +847,12 @@ export default class inventoryController {
 
   static async apiGetTaxrate(req, res, next) {
     try {
-      const data = req.body;
-      const _id = req.params.id;
-
-      const response = await inventoryDataAccessObject.getTaxrate(data, _id);
+      const response = await inventoryDataAccessObject.getTaxrate();
 
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        taxRates: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -865,7 +869,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        recievesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -882,7 +886,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        returnsData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -899,13 +903,83 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        ordersData: response.data,
       });
     } catch (error) {
       console.log(error);
     }
   }
 
+  static async apiGetTransfer(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.getTransfer(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        transfersData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async apiGetStockReconciliation(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.getStockReconciliation(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        reconciliationsData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async apiGetDiscrepancy(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.getDiscrepancy(
+        data,
+        _id,
+      );
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        discrepanciesData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async apiGetAdjustment(req, res, next) {
+    try {
+      const data = req.body;
+      const _id = req.params.id;
+
+      const response = await inventoryDataAccessObject.getAdjustment(data, _id);
+
+      res.json({
+        status: response.status,
+        message: response.message,
+        adjustmentsData: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   static async apiGetDelivery(req, res, next) {
     try {
       const data = req.body;
@@ -916,7 +990,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        deliveriesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -936,7 +1010,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        openingStockData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -953,7 +1027,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        invoicesData: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -1007,7 +1081,7 @@ export default class inventoryController {
       res.json({
         status: response.status,
         message: response.message,
-        info: response.data,
+        productionData: response.data,
       });
     } catch (error) {
       console.log(error);
