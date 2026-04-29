@@ -79,6 +79,9 @@ router
   .route("/client/:id/manage_products/post-service")
   .post(inventoryController.apiPostProductService);
 router
+  .route("/client/:id/manage_products/product_services/post")
+  .post(inventoryController.apiPostProductService);
+router
   .route("/client/:id/manage_products/post_import")
   .post(inventoryController.apiPostImport);
 router
@@ -203,7 +206,7 @@ router
   .route("/manage_products/client/:id/sell-returns")
   .get(inventoryController.apiGetSellReturn);
 router
-  .route("/client/:id/products_services/fetch_services")
+  .route("/client/:id/manage_stocks/fetch_services")
   .get(inventoryController.apiGetProductService);
 router
   .route("/manage_products/client/:id/imports")
