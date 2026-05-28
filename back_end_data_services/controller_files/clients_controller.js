@@ -11,9 +11,9 @@ export default class clientsController {
         password,
       );
       res.json({
-        status: response.status,
-        message: response.message,
-        info: response.found,
+        status: response?.status,
+        message: response?.message,
+        clientInfo: response?.found,
       });
     } catch (error) {
       console.log(error);
@@ -32,6 +32,21 @@ export default class clientsController {
         status: response.status,
         message: response.message,
         info: response.found,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async apiPostNewRegister(req, res, next) {
+    try {
+      const payload = req.body;
+      const response = await clientsDataAccessObject.postNewRegister(payload);
+      console.log(payload);
+      res.json({
+        status: response.status,
+        message: response.message,
+        newClient: response.found,
       });
     } catch (error) {
       console.log(error);

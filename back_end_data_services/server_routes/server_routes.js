@@ -30,6 +30,7 @@ router.route("/users/logins").post(clientsController.userLogin);
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // ------------------------ API POST REQUESTS ---------------------------
+router.route("/new_client/register").post(clientsController.apiPostNewRegister);
 router
   .route("/client/:id/manage_products/add_product")
   .post(inventoryController.apiPostProducts);

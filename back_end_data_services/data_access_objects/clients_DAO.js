@@ -40,12 +40,12 @@ export default class clientsDataAccessObject {
   static async clientSignIn(username, password) {
     try {
       const found = await clients.findOne({
-        "auth.loginUsername": username,
+        "auth.user.email": username,
       });
 
       if (found) {
-        if (username === found.auth.loginUsername) {
-          if (found.auth.hashedPassword === password) {
+        if (username === found.auth.user.email) {
+          if (found.auth.credentials.hashedPassword === password) {
             return {
               status: 201,
               found: found,
@@ -77,7 +77,7 @@ export default class clientsDataAccessObject {
 
       if (found) {
         if (username === found.auth.loginUsername) {
-          if (found.auth.hashedPassword === password) {
+          if (found.auth.credentials.hashedPassword === password) {
             return {
               status: 201,
               found: found,
@@ -99,6 +99,106 @@ export default class clientsDataAccessObject {
         };
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  static async postNewRegister(payload) {
+    try {
+      // Validate payload
+      if (!payload) {
+        return {
+          status: 400,
+          message: "Payload is required",
+          info: null,
+        };
+      }
+
+      // Extract email and phone number
+      const email = payload?.owner?.personalInfo?.email || "";
+      const phoneNumber = payload?.owner?.personalInfo?.phone || "";
+
+      // Check for form validations
+      if (
+        !payload?.owner?.personalInfo?.firstName ||
+        !payload?.owner?.personalInfo?.surName ||
+        !payload?.owner?.personalInfo?.email ||
+        !payload?.owner?.personalInfo?.phone ||
+        !payload?.owner?.personalInfo?.gender ||
+        !payload?.owner?.personalInfo?.nationality
+      ) {
+        return {
+          status: 400,
+          message: "Please fill all the required fields",
+          info: null,
+        };
+      }
+      // Check existing email
+      const existingEmail = await clients.findOne({
+        "owner.personalInfo.email": email,
+      });
+
+      // Check existing phone number
+      const existingPhone = await clients.findOne({
+        "owner.personalInfo.phone": phoneNumber,
+      });
+
+      if (existingPhone) {
+        return {
+          status: 409,
+          message: "Phone number already exists",
+          info: null,
+        };
+      } else if (existingEmail) {
+        return {
+          status: 409,
+          message: "Email already exists",
+          info: null,
+        };
+      } else {
+        // Count total clients
+        const totalClients = await clients.countDocuments();
+
+        // Generate client ID
+        const clientId = `CLT-${new Date().getFullYear()}-${String(
+          totalClients + 1,
+        ).padStart(6, "0")}`;
+
+        // Attach client ID
+        payload.clientId = clientId;
+
+        // Insert client
+        const { insertedId } = await clients.insertOne(payload);
+
+        // Retrieve inserted client
+        const response = await clients.findOne({
+          _id: new ObjectId(insertedId),
+        });
+
+        // Check insertion success
+        if (!response) {
+          return {
+            status: 500,
+            message: "Failed to retrieve registered client",
+            info: null,
+          };
+        }
+
+        console.log(`New client registered: ${clientId}`);
+
+        return {
+          status: 201,
+          message: "Registered successfully",
+          info: response,
+        };
+      }
+    } catch (err) {
+      console.error("Error handling registration:", err);
+
+      return {
+        status: 500,
+        message: "Internal server error",
+        info: null,
+      };
     }
   }
 }
