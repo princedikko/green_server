@@ -1,6 +1,7 @@
 import { response } from "express";
 import nodemailer from "nodemailer";
 import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
 
 let new_clients, clients, sales;
 
@@ -12,8 +13,8 @@ export default class clientsDataAccessObject {
     }
     try {
       new_clients = await connections
-        .db("green_clients")
-        .collection("clients_informations");
+        .db("universe_clients")
+        .collection("erp_clients");
     } catch (err) {
       console.log(
         `un-able to establish the connection to the clients data base and collections ${err}`,
@@ -27,8 +28,8 @@ export default class clientsDataAccessObject {
     }
     try {
       clients = await connections
-        .db("skillpoint_clients")
-        .collection("clients_informations");
+        .db("universe_clients")
+        .collection("erp_clients");
     } catch (err) {
       console.log(
         `un-able to establish the connection to the clients data base and collections FOR LOGIN ${err}`,
@@ -43,30 +44,43 @@ export default class clientsDataAccessObject {
         "auth.user.email": username,
       });
 
-      if (found) {
-        if (username === found.auth.user.email) {
-          if (found.auth.credentials.hashedPassword === password) {
-            return {
-              status: 201,
-              found: found,
-              message: "Masha Allaah, Login was successfully",
-            };
-          } else {
-            return {
-              status: 401,
-              found: null,
-              message: "Incorrect password",
-            };
-          }
-        }
-      } else
+      if (!found) {
         return {
           status: 401,
           found: null,
           message: "Username not found",
         };
+      }
+
+      // ✅ IMPORTANT: use bcrypt for hashed passwords
+      console.log(
+        "Comparing password:",
+        password,
+        "with hashed:",
+        found.auth.credentials.hashedPassword,
+      );
+
+      if (password !== found.auth.credentials.hashedPassword) {
+        return {
+          status: 401,
+          found: null,
+          message: "Incorrect password",
+        };
+      }
+
+      return {
+        status: 200,
+        found,
+        message: "Login successful",
+      };
     } catch (err) {
-      console.log(err);
+      console.error(err);
+
+      return {
+        status: 500,
+        found: null,
+        message: "Internal server error",
+      };
     }
   }
   static async apiSignUser(username, password) {
@@ -144,7 +158,7 @@ export default class clientsDataAccessObject {
 
       if (existingPhone) {
         return {
-          status: 409,
+          status: 408,
           message: "Phone number already exists",
           info: null,
         };
@@ -165,6 +179,24 @@ export default class clientsDataAccessObject {
 
         // Attach client ID
         payload.clientId = clientId;
+
+        // Encrypt the password and PIN using bcrypt
+        if (payload.auth?.credentials?.password) {
+          const hashedPassword = await bcrypt.hash(
+            payload.auth.credentials.password,
+            10,
+          );
+          payload.auth.credentials.hashedPassword = hashedPassword;
+        }
+
+        // Encrypt the password and PIN using bcrypt
+        if (payload.auth?.pointOfSale.hashedPin) {
+          const hashedPin = await bcrypt.hash(
+            payload.auth.pointOfSale.hashedPin,
+            10,
+          );
+          payload.auth.pointOfSale.hashedPin = hashedPin;
+        }
 
         // Insert client
         const { insertedId } = await clients.insertOne(payload);

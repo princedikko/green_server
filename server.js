@@ -10,9 +10,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://jool365.com",
-      "https://jool365.com",
-      "http://localhost:3000",
+      "https://universeinventory.com",
+      // "http://localhost:3000",
     ], // allow frontend domains
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
